@@ -6,12 +6,72 @@ import 'customwidget.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
-  String get txt => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+  String get txt =>
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("NEW REMINDERS", style: TextStyle(fontSize: 13),),
+                    IconButton(
+                      icon: Icon(Icons.close, size: 18,),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Reminder Name", style: TextStyle(color: Colors.grey, fontSize: 10)),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 3, 0, 0)),
+                    Text("Please Enter Reminder Name", style: TextStyle(color: Colors.black, fontSize: 14)),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                    Divider(color: Colors.black),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 0)),
+                    Text("Reminder Description", style: TextStyle(color: Colors.grey, fontSize: 10)),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 3, 0, 0)),
+                    Text("Please Enter Reminder Description", style: TextStyle(color: Colors.black, fontSize: 14)),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 2, 0, 0)),
+                    Divider(color: Colors.black),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 5, 0, 0)),
+                    RaisedButton(
+                      child: Text("Select Image", style: TextStyle(color: Colors.red)),
+                      onPressed: () {},
+                      color: Colors.white,
+                    ),
+                    Padding(padding: EdgeInsets.fromLTRB(0, 15, 0, 0)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        RaisedButton(
+                          child: Text("SAVE", style: TextStyle(color: Colors.white)),
+                          onPressed: () {},
+                          color: Colors.red,
+                        ),
+                        RaisedButton(
+                          child: Text("RESET", style: TextStyle(color: Colors.white)),
+                          onPressed: () {},
+                          color: Colors.red,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              );
+            },
+          );
+        },
         child: Icon(Icons.add),
         backgroundColor: Colors.red,
       ),
