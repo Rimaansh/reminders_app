@@ -1,4 +1,4 @@
-# techm_reminders_app
+# reminders_app
 
 A new Flutter project.
 
