@@ -56,12 +56,38 @@ class HomePage extends StatelessWidget {
                       children: [
                         RaisedButton(
                           child: Text("SAVE", style: TextStyle(color: Colors.white)),
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('ALERT'),
+                                  content: Text(
+                                    'Reminder Set Successfully',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text(
+                                        'OK',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context)..pop()..pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
                           color: Colors.red,
                         ),
                         RaisedButton(
                           child: Text("RESET", style: TextStyle(color: Colors.white)),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
                           color: Colors.red,
                         ),
                       ],
