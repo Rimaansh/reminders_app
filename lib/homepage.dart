@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'NotificationApi.dart';
 import 'splashscreen.dart';
 import 'customwidget.dart';
 
@@ -73,7 +74,14 @@ class HomePage extends StatelessWidget {
                                         style: TextStyle(color: Colors.red),
                                       ),
                                       onPressed: () {
-                                        Navigator.of(context)..pop()..pop();
+                                        Navigator.of(context)
+                                          ..pop()
+                                          ..pop();
+                                        NotificationApi.showNotification(
+                                          title: 'Reminder Added',
+                                          body: 'Congrats! The notification has been added',
+                                          payload: 'notif.abs'
+                                        );
                                       },
                                     ),
                                   ],
