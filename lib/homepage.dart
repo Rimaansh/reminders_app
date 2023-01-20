@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'notificationApi.dart';
 import 'splashscreen.dart';
 import 'customwidget.dart';
+import 'package:intl/intl.dart';
 
 class ReminderPage extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class ReminderPage extends StatefulWidget {
 }
 
 class _ReminderPageState extends State<ReminderPage> {
-  List<String> _reminders = [];
+  List<Map<String, dynamic>> _reminders = [];
 
   @override
   Widget build(BuildContext context) {
@@ -21,17 +22,45 @@ class _ReminderPageState extends State<ReminderPage> {
       body: ListView.builder(
         itemCount: _reminders.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_reminders[index]),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                setState(() {
-                  _reminders.removeAt(index);
-                });
-              },
-            ),
-          );
+          final reminder = _reminders[index];
+          return Container(
+            margin: EdgeInsets.fromLTRB(3, 10, 3, 0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.lightBlue, // border color
+                  width: 2.0, // border width
+                ),
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.all(10),
+                title: Text(
+                  reminder['name'],
+                  style: TextStyle(fontSize: 20),
+                ),
+                subtitle: Container(
+                  alignment: Alignment.bottomLeft,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(reminder['description']),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(new DateFormat.jm().format(reminder['dateTime']), textAlign: TextAlign.left,),
+                    ],
+                  ),
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    setState(() {
+                      _reminders.removeAt(index);
+                    });
+                  },
+                ),
+              ));
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -40,20 +69,69 @@ class _ReminderPageState extends State<ReminderPage> {
           showDialog(
             context: context,
             builder: (context) {
+              var reminderNameController = TextEditingController();
+              var reminderDescriptionController = TextEditingController();
+              var _dateTime = DateTime.now();
+
               return AlertDialog(
                 title: Text('Add Reminder'),
-                content: TextField(
-                  onSubmitted: (value) {
-                    setState(() {
-                      _reminders.add(value);
-                    });
-                    Navigator.of(context).pop();
-                  },
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    TextField(
+                      controller: reminderNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Reminder Name',
+                      ),
+                    ),
+                    TextField(
+                      controller: reminderDescriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Reminder Description',
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    FlatButton(
+                      child: Text(
+                        new DateFormat.yMd().add_jm().format(_dateTime),
+                      ),
+                      onPressed: () async {
+                        final _picked = await showDatePicker(
+                            context: context,
+                            initialDate: _dateTime,
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100));
+                        if (_picked != null) {
+                          final _pickedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.fromDateTime(_dateTime),
+                          );
+                          if (_pickedTime != null) {
+                            setState(() {
+                              _dateTime = DateTime(
+                                  _picked.year,
+                                  _picked.month,
+                                  _picked.day,
+                                  _pickedTime.hour,
+                                  _pickedTime.minute);
+                            });
+                          }
+                        }
+                      },
+                    ),
+                  ],
                 ),
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Add'),
                     onPressed: () {
+                      setState(() {
+                        _reminders.add({
+                          'name': reminderNameController.text,
+                          'description': reminderDescriptionController.text,
+                          'dateTime': _dateTime
+                        });
+                      });
                       Navigator.of(context).pop();
                     },
                   ),
