@@ -24,43 +24,50 @@ class _ReminderPageState extends State<ReminderPage> {
         itemBuilder: (context, index) {
           final reminder = _reminders[index];
           return Container(
-            margin: EdgeInsets.fromLTRB(3, 10, 3, 0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.lightBlue, // border color
-                  width: 2.0, // border width
+            margin: EdgeInsets.fromLTRB(5, 10, 5, 0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: Colors.grey,
+                width: 2.0,
+              ),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: ListTile(
+              contentPadding: EdgeInsets.all(10),
+              title: Text(
+                reminder['name'],
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              subtitle: Container(
+                alignment: Alignment.bottomLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(reminder['description'],
+                        style: TextStyle(fontSize: 16)),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(new DateFormat.jm().format(reminder['dateTime']),
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 16, color: Colors.grey)),
+                  ],
                 ),
               ),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(10),
-                title: Text(
-                  reminder['name'],
-                  style: TextStyle(fontSize: 20),
-                ),
-                subtitle: Container(
-                  alignment: Alignment.bottomLeft,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(reminder['description']),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text(new DateFormat.jm().format(reminder['dateTime']), textAlign: TextAlign.left,),
-                    ],
-                  ),
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    setState(() {
-                      _reminders.removeAt(index);
-                    });
-                  },
-                ),
-              ));
+              trailing: IconButton(
+                icon: Icon(Icons.delete, color: Colors.red),
+                onPressed: () {
+                  setState(() {
+                    _reminders.removeAt(index);
+                  });
+                },
+              ),
+            ),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -74,6 +81,7 @@ class _ReminderPageState extends State<ReminderPage> {
               var _dateTime = DateTime.now();
 
               return AlertDialog(
+                scrollable: true,
                 title: Text('Add Reminder'),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
