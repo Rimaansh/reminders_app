@@ -1,71 +1,99 @@
 import 'package:flutter/material.dart';
 import 'splashscreen.dart';
 import 'homepage.dart';
+import 'dart:core';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<LoginScreen> {
+  final scaffoldKey = new GlobalKey<ScaffoldState>();
+  final formKey = new GlobalKey<FormState>();
+
+  String _email = "", _pass = "";
+
+  _showSnackbar() {
+    var snackBar = new SnackBar(content: Text("Login Successful"));
+    scaffoldKey.currentState?.showSnackBar(snackBar);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        titleSpacing: 0,
-        leadingWidth: 60,
-        centerTitle: true,
-        title: Text("Reminders App"),
-        backgroundColor: Colors.red,
-      ),
-      body: Form(
+      key: scaffoldKey,
+      body: SingleChildScrollView(
         child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Container(
-                  child: Image(
-                    width: 150,
-                    height: 100,
-                    image: AssetImage("images/logo.jpg"),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      hintText: 'Enter your email',
-                      icon: Icon(Icons.email, size: 27,),
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height/7,
+              ),
+              Container(
+                margin: EdgeInsets.all(10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    height: 120,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("images/logo.jpg"),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      hintText: 'Enter your password',
-                      icon: Icon(Icons.key, size: 27,),
+              ),
+              Form(
+                  key: formKey,
+                  child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          validator: (val) => (val?.contains("@") ?? false)
+                              ? null
+                              : "Email Id is not Valid",
+                          onSaved: (val) => _email = val ?? "",
+                          decoration: InputDecoration(
+                              labelText: "Email", hintText: "Enter Email"),
+                        ),
+                        TextFormField(
+                          onSaved: (val) => _pass = val ?? "",
+                          validator: (val) => (val?.length ?? 0) < 6
+                              ? "Password length should be Greater than 6"
+                              : null,
+                          decoration: InputDecoration(
+                              labelText: "Password", hintText: "Enter Password"),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: RaisedButton(
+                            color: Colors.red,
+                            child: Text("LOGIN", style: TextStyle(color: Colors.white, fontSize: 15),),
+                            onPressed: () {
+                              if (formKey.currentState?.validate() ?? false) {
+                                formKey.currentState?.save();
+                                _showSnackbar();
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ReminderPage()));
+                              }
+                            },
+                          ),
+                        )
+                      ],
                     ),
-                  ),
-                ),
-                SizedBox(height: 30,),
-                RaisedButton(
-                  color: Colors.red,
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ReminderPage()));
-                  },
-                  child: Text('LOGIN', style: TextStyle(fontSize: 17, color: Colors.white),),
-                ),
-              ],
-            ),
+                  )
+              ),
+            ],
           ),
         ),
       ),
-    );;
+    );
   }
 }
-
-

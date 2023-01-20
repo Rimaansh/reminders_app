@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'notificationApi.dart';
 import 'splashscreen.dart';
+import 'loginPage.dart';
 import 'customwidget.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +18,47 @@ class _ReminderPageState extends State<ReminderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reminders'),
+        backgroundColor: Colors.red,
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Logout"),
+                  content: Text("Do you wish to logout?"),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text("YES"),
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LoginScreen()));
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("NO"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+        ),
+        title: Text("Dashboard"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              // Handle search button press
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: _reminders.length,
@@ -71,6 +112,7 @@ class _ReminderPageState extends State<ReminderPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
         child: Icon(Icons.add),
         onPressed: () {
           showDialog(
@@ -79,10 +121,21 @@ class _ReminderPageState extends State<ReminderPage> {
               var reminderNameController = TextEditingController();
               var reminderDescriptionController = TextEditingController();
               var _dateTime = DateTime.now();
-
               return AlertDialog(
                 scrollable: true,
-                title: Text('Add Reminder'),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Add Reminder'),
+                    IconButton(
+                      iconSize: 22,
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -141,6 +194,29 @@ class _ReminderPageState extends State<ReminderPage> {
                         });
                       });
                       Navigator.of(context).pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("ALERT"),
+                            content: Text(
+                              "Reminder Set Successfully",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text(
+                                  "OK",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     },
                   ),
                 ],
