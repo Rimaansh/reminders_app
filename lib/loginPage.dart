@@ -55,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                   color: Colors.red,
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ReminderPage()));
                   },
                   child: Text('LOGIN', style: TextStyle(fontSize: 17, color: Colors.white),),
                 ),

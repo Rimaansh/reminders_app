@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'dart:core';
 
 class customWidget extends StatelessWidget {
-  final String msg =
-      "Lorem ipsum dolor sit amet\nLorem ipsum dolor sit amet\nLorem ipsum dolor sit amet";
-  final String txt;
-  const customWidget(this.txt);
+  final String reminderDesc;
+  final String reminderName;
+  const customWidget(this.reminderName, this.reminderDesc);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +36,7 @@ class customWidget extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 10),
                     child: Text(
-                      txt,
+                      reminderName,
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.grey,
@@ -44,7 +44,7 @@ class customWidget extends StatelessWidget {
                     ),
                   ),
                   Expanded(child: Text(
-                    msg,
+                    reminderDesc,
                     softWrap: false,
                     style: TextStyle(
                       fontSize: 15,
@@ -56,6 +56,23 @@ class customWidget extends StatelessWidget {
             ),
           ],
         ),
+    );
+  }
+}
+
+
+class CustomWidgetList extends StatelessWidget {
+  final List<String> items;
+
+  CustomWidgetList({required this.items});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        return customWidget("Reminder", "afjdlfa");
+      },
     );
   }
 }
