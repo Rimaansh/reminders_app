@@ -82,7 +82,7 @@ class _MyAppState extends State<LoginScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ReminderPage()));
-                              }
+                              } 
                             },
                           ),
                         )
