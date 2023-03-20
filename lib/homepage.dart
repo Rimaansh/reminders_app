@@ -29,7 +29,7 @@ class _ReminderPageState extends State<ReminderPage> {
                   title: Text("Logout"),
                   content: Text("Do you wish to logout?"),
                   actions: <Widget>[
-                    FlatButton(
+                    ElevatedButton(
                       child: Text("YES"),
                       onPressed: () {
                         Navigator.pushReplacement(
@@ -38,7 +38,7 @@ class _ReminderPageState extends State<ReminderPage> {
                                 builder: (context) => LoginScreen()));
                       },
                     ),
-                    FlatButton(
+                    ElevatedButton(
                       child: Text("NO"),
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -152,7 +152,7 @@ class _ReminderPageState extends State<ReminderPage> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    FlatButton(
+                    ElevatedButton(
                       child: Text(
                         new DateFormat.yMd().add_jm().format(_dateTime),
                       ),
@@ -183,7 +183,7 @@ class _ReminderPageState extends State<ReminderPage> {
                   ],
                 ),
                 actions: <Widget>[
-                  FlatButton(
+                  ElevatedButton(
                     child: Text('Add'),
                     onPressed: () {
                       setState(() {
@@ -204,7 +204,7 @@ class _ReminderPageState extends State<ReminderPage> {
                               style: TextStyle(color: Colors.grey),
                             ),
                             actions: <Widget>[
-                              FlatButton(
+                              ElevatedButton(
                                 child: Text(
                                   "OK",
                                   style: TextStyle(color: Colors.red),

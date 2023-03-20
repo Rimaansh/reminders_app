@@ -16,7 +16,7 @@ class _MyAppState extends State<LoginScreen> {
 
   _showSnackbar() {
     var snackBar = new SnackBar(content: Text("Login Successful"));
-    scaffoldKey.currentState?.showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -71,8 +71,8 @@ class _MyAppState extends State<LoginScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
-                          child: RaisedButton(
-                            color: Colors.red,
+                          child: ElevatedButton(
+                            //color: Colors.red,
                             child: Text("LOGIN", style: TextStyle(color: Colors.white, fontSize: 15),),
                             onPressed: () {
                               if (formKey.currentState?.validate() ?? false) {
